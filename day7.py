@@ -80,9 +80,9 @@ def find_unbalanced_disc(program):
     
     disc = []
     for tower in towers:
-        result = find_unbalanced_disc(tower)
-        if result is not None:
-            return result
+        unbalanced_disc = find_unbalanced_disc(tower)
+        if unbalanced_disc is not None:
+            return unbalanced_disc
 
         disc.append((tower, sum_weights(tower)))
 
