@@ -33,8 +33,8 @@ def reverse_sublist(pos, length, list):
         list[(pos + idx) % len(list)] = value
 
 
-puzzle_input = "183,0,31,146,254,240,223,150,2,206,161,1,255,232,199,88"
-print knot_hash(puzzle_input)
+# puzzle_input = "183,0,31,146,254,240,223,150,2,206,161,1,255,232,199,88"
+# print knot_hash(puzzle_input)
 
 
 # ==== Part 2 ====
@@ -67,4 +67,4 @@ def to_hex_string(dense_hash):
 
 # example_input = "AoC 2017"
 # example_input = "1,2,4"
-print knot_hash_2(puzzle_input)
+# print knot_hash_2(puzzle_input)
