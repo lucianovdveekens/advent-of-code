@@ -34,26 +34,26 @@ def run_instructions(instructions):
         if inst == 'snd':
             last_played_sound = registers[x]
         elif inst == 'set':
-            registers[x] = to_value(y, registers)
+            registers[x] = get(y, registers)
         elif inst == 'add':
-            registers[x] += to_value(y, registers)
+            registers[x] += get(y, registers)
         elif inst == 'mul':
-            registers[x] *= to_value(y, registers)
+            registers[x] *= get(y, registers)
         elif inst == 'mod':
-            registers[x] %= to_value(y, registers)
+            registers[x] %= get(y, registers)
         elif inst == 'rcv':
             if registers[x] != 0:
                 return last_played_sound
         elif inst == 'jgz':
-            if to_value(x, registers) > 0:
-                i += to_value(y, registers)
+            if get(x, registers) > 0:
+                i += get(y, registers)
                 continue
 
         i += 1
     return None
 
 
-def to_value(value, registers):
+def get(value, registers):
     return registers[value] if value.isalpha() else int(value)
 
 
@@ -77,7 +77,6 @@ jgz a -2"""
 
 queue0 = Queue()
 queue1 = Queue()
-print_lock = threading.Lock()
 
 
 class Program(threading.Thread):
@@ -90,12 +89,10 @@ class Program(threading.Thread):
         self.other_queue = other_queue
 
     def run(self):
-        with print_lock:
-            print "Program " + str(self.id) + ": started"
+        print "Program " + str(self.id) + ": started"
         messages_sent = run_instructions_2(self.id, self.instructions, self.own_queue, self.other_queue)
-        with print_lock:
-            print "Program " + str(self.id) + ": sent " + str(messages_sent) + " messages"
-            print "Program " + str(self.id) + ": stopped"
+        print "Program " + str(self.id) + ": sent " + str(messages_sent) + " messages"
+        print "Program " + str(self.id) + ": stopped"
 
 
 def duet_2(input):
@@ -121,16 +118,16 @@ def run_instructions_2(program_id, instructions, own_queue, other_queue):
         inst, x, y = instructions[i]
 
         if inst == 'snd':
-            other_queue.put(to_value(x, registers))
+            other_queue.put(get(x, registers))
             messages_sent += 1
         elif inst == 'set':
-            registers[x] = to_value(y, registers)
+            registers[x] = get(y, registers)
         elif inst == 'add':
-            registers[x] += to_value(y, registers)
+            registers[x] += get(y, registers)
         elif inst == 'mul':
-            registers[x] *= to_value(y, registers)
+            registers[x] *= get(y, registers)
         elif inst == 'mod':
-            registers[x] %= to_value(y, registers)
+            registers[x] %= get(y, registers)
         elif inst == 'rcv':
             try:
                 y = own_queue.get(block=True, timeout=5)
@@ -139,8 +136,8 @@ def run_instructions_2(program_id, instructions, own_queue, other_queue):
                 break
             registers[x] = y
         elif inst == 'jgz':
-            if to_value(x, registers) > 0:
-                i += to_value(y, registers)
+            if get(x, registers) > 0:
+                i += get(y, registers)
                 continue
 
         i += 1
