@@ -144,13 +144,13 @@ def run_instructions_2(program_id, instructions, own_queue, other_queue):
     return messages_sent
 
 
-example_input_2 = """snd 1
-snd 2
-snd p
-rcv a
-rcv b
-rcv c
-rcv d"""
+# example_input_2 = """snd 1
+# snd 2
+# snd p
+# rcv a
+# rcv b
+# rcv c
+# rcv d"""
 
-puzzle_input = open('day18.txt').read()
-duet_2(puzzle_input)
+# puzzle_input = open('day18.txt').read()
+# duet_2(puzzle_input)
