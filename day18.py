@@ -34,26 +34,26 @@ def run_instructions(instructions):
         if inst == 'snd':
             last_played_sound = registers[x]
         elif inst == 'set':
-            registers[x] = get_value(y, registers)
+            registers[x] = value_of(y, registers)
         elif inst == 'add':
-            registers[x] += get_value(y, registers)
+            registers[x] += value_of(y, registers)
         elif inst == 'mul':
-            registers[x] *= get_value(y, registers)
+            registers[x] *= value_of(y, registers)
         elif inst == 'mod':
-            registers[x] %= get_value(y, registers)
+            registers[x] %= value_of(y, registers)
         elif inst == 'rcv':
             if registers[x] != 0:
                 return last_played_sound
         elif inst == 'jgz':
-            if get_value(x, registers) > 0:
-                i += get_value(y, registers)
+            if value_of(x, registers) > 0:
+                i += value_of(y, registers)
                 continue
 
         i += 1
     return None
 
 
-def get_value(value, registers):
+def value_of(value, registers):
     return registers[value] if value.isalpha() else int(value)
 
 
@@ -118,16 +118,16 @@ def run_instructions_2(program_id, instructions, own_queue, other_queue):
         inst, x, y = instructions[i]
 
         if inst == 'snd':
-            other_queue.put(get_value(x, registers))
+            other_queue.put(value_of(x, registers))
             messages_sent += 1
         elif inst == 'set':
-            registers[x] = get_value(y, registers)
+            registers[x] = value_of(y, registers)
         elif inst == 'add':
-            registers[x] += get_value(y, registers)
+            registers[x] += value_of(y, registers)
         elif inst == 'mul':
-            registers[x] *= get_value(y, registers)
+            registers[x] *= value_of(y, registers)
         elif inst == 'mod':
-            registers[x] %= get_value(y, registers)
+            registers[x] %= value_of(y, registers)
         elif inst == 'rcv':
             try:
                 y = own_queue.get(block=True, timeout=5)
@@ -136,8 +136,8 @@ def run_instructions_2(program_id, instructions, own_queue, other_queue):
                 break
             registers[x] = y
         elif inst == 'jgz':
-            if get_value(x, registers) > 0:
-                i += get_value(y, registers)
+            if value_of(x, registers) > 0:
+                i += value_of(y, registers)
                 continue
 
         i += 1
